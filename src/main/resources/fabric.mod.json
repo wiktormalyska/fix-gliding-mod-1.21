@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "gliding",
+	"version": "${version}",
+	"name": "gliding",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/gliding/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.l33tfox.gliding.Gliding"
+		],
+		"fabric-datagen": [
+			"com.l33tfox.gliding.GlidingDataGenerator"
+		],
+		"client": [
+			"com.l33tfox.gliding.GlidingClient"
+		]
+	},
+	"mixins": [
+		"gliding.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
