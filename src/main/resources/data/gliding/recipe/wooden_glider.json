@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+	"category": "equipment",
+    "pattern": [
+        "###",
+        "OSO",
+        "/ /"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:leather"
+        },
+        "O": {
+            "tag": "minecraft:planks"
+        },
+        "S": {
+            "item": "minecraft:string"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+		"count": 1,
+		"id": "gliding:wooden_glider"
+	}
+}
