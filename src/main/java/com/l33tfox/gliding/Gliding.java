@@ -1,7 +1,6 @@
 package com.l33tfox.gliding;
 
 import com.l33tfox.gliding.items.ModItemsRegistry;
-import com.l33tfox.gliding.mechanics.GlidingMechanic;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
