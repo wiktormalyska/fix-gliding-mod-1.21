@@ -1,7 +1,9 @@
 package com.l33tfox.gliding.items;
 
+import com.l33tfox.gliding.Gliding;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,35 +16,46 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GliderItem extends Item {
+public class GliderItem extends ToolItem {
 
-    public GliderItem(Settings settings) {
-        super(settings);
+    private long ticksGlidingContinuously;
+
+    public GliderItem(ToolMaterial material, Settings settings) {
+        super(material, settings);
+
+        ticksGlidingContinuously = 0;
     }
 
+    // Called every tick for every GliderItem in player inventory on both client and server side
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if (entity instanceof PlayerEntity player && (player.getMainHandStack().getItem() instanceof GliderItem
-                || player.getOffHandStack().getItem() instanceof GliderItem)) {
+        // if the current GliderItem is selected and the entity is a player
+        if (selected && entity instanceof PlayerEntity player) {
+            boolean gliderInMainHand = player.getMainHandStack().getItem() instanceof GliderItem;
+            boolean gliderInOffHand = player.getOffHandStack().getItem() instanceof GliderItem;
 
-            if (MinecraftClient.getInstance().options.jumpKey.isPressed())
-                startGliding(player);
+            // ensures that player must be holding jump key to continue gliding
+            if (MinecraftClient.getInstance().options.jumpKey.isPressed()) {
+                Vec3d velocity = player.getVelocity();
+
+                // ensures that player is in the air, not swimming, and falling before gliding
+                if (!player.isOnGround() && !player.isSwimming() && velocity.y < 0)
+                    startGliding(player);
+
+                // on server side, increments tick counter and checks if a second (20 ticks) of gliding has passed
+                if (!world.isClient() && ticksGlidingContinuously++ != 0 && ticksGlidingContinuously % 20 == 0) {
+                    if (gliderInMainHand)
+                        player.getMainHandStack().damage(1, player, EquipmentSlot.MAINHAND);
+                    else if (gliderInOffHand)
+                        player.getOffHandStack().damage(1, player, EquipmentSlot.OFFHAND);
+                }
+
+            } else ticksGlidingContinuously = 0; // resets tick counter if player stops trying to glide
         }
     }
 
-//    @Override
-//    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-//        startGliding(user);
-//
-//        return TypedActionResult.pass(user.getStackInHand(hand));
-//    }
-
-    public static void startGliding(PlayerEntity player) {
-        Vec3d velocity = player.getVelocity();
-
-        if (!player.isOnGround() && !player.isSwimming() && velocity.y < 0) {
-
-            player.setVelocity(velocity.x * 1.05, -0.15, velocity.z * 1.05);
-        }
+    private void startGliding(PlayerEntity player) {
+        player.setVelocity(player.getVelocity().x * 1.025, -0.15, player.getVelocity().z * 1.025);
+        player.fallDistance = 0;
     }
 }

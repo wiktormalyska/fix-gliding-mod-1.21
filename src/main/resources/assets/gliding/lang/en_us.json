@@ -1,3 +1,8 @@
 {
-  "item.gliding.wooden_glider" : "Wooden Glider"
+  "item.gliding.wooden_glider" : "Wooden Glider",
+  "item.gliding.stone_glider" : "Stone Glider",
+  "item.gliding.iron_glider" : "Iron Glider",
+  "item.gliding.golden_glider" : "Golden Glider",
+  "item.gliding.diamond_glider" : "Diamond Glider",
+  "item.gliding.netherite_glider" : "Netherite Glider"
 }
