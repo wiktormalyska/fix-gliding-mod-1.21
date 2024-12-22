@@ -19,6 +19,8 @@ import java.util.List;
 public class GliderItem extends ToolItem {
 
     private long ticksGlidingContinuously;
+    private static final double GLIDE_DROP_SPEED = -0.15;
+    private static final double GLIDE_SPEED_INCREASE_FACTOR = 1.06;
 
     public GliderItem(ToolMaterial material, Settings settings) {
         super(material, settings);
@@ -26,13 +28,20 @@ public class GliderItem extends ToolItem {
         ticksGlidingContinuously = 0;
     }
 
-    // Called every tick for every GliderItem in player inventory on both client and server side
+    // Called every tick for every GliderItem stack in player inventory on both client and server side
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        // if the current GliderItem is selected and the entity is a player
-        if (selected && entity instanceof PlayerEntity player) {
-            boolean gliderInMainHand = player.getMainHandStack().getItem() instanceof GliderItem;
-            boolean gliderInOffHand = player.getOffHandStack().getItem() instanceof GliderItem;
+        // do nothing if entity is not a player
+        if (!(entity instanceof PlayerEntity player))
+            return;
+
+        boolean gliderInOffHandOnly = player.getOffHandStack() == stack &&
+                !(player.getMainHandStack().getItem() instanceof GliderItem);
+
+        // if the current GliderItem is selected in main or off hand. statement is false if player is holding a
+        // GliderItem stack in both hands, and the current stack is the one in the off hand (to prevent speed
+        // multipliers stacking when holding two gliders)
+        if ((selected && player.getMainHandStack() == stack) || gliderInOffHandOnly) {
 
             Vec3d velocity = player.getVelocity();
             boolean jumpKeyPressed = MinecraftClient.getInstance().options.jumpKey.isPressed();
@@ -43,9 +52,9 @@ public class GliderItem extends ToolItem {
 
                 // on server side, increments tick counter and checks if a second (20 ticks) of gliding has passed
                 if (!world.isClient() && ticksGlidingContinuously++ != 0 && ticksGlidingContinuously % 20 == 0) {
-                    if (gliderInMainHand)
+                    if (selected)
                         player.getMainHandStack().damage(1, player, EquipmentSlot.MAINHAND);
-                    else if (gliderInOffHand)
+                    else if (gliderInOffHandOnly)
                         player.getOffHandStack().damage(1, player, EquipmentSlot.OFFHAND);
                 }
 
@@ -54,7 +63,8 @@ public class GliderItem extends ToolItem {
     }
 
     private void startGliding(PlayerEntity player) {
-        player.setVelocity(player.getVelocity().x * 1.025, -0.15, player.getVelocity().z * 1.025);
+        player.setVelocity(player.getVelocity().x * GLIDE_SPEED_INCREASE_FACTOR, GLIDE_DROP_SPEED,
+                player.getVelocity().z * GLIDE_SPEED_INCREASE_FACTOR);
         player.fallDistance = 0;
     }
 }
