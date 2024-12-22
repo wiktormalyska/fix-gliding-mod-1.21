@@ -34,13 +34,12 @@ public class GliderItem extends ToolItem {
             boolean gliderInMainHand = player.getMainHandStack().getItem() instanceof GliderItem;
             boolean gliderInOffHand = player.getOffHandStack().getItem() instanceof GliderItem;
 
-            // ensures that player must be holding jump key to continue gliding
-            if (MinecraftClient.getInstance().options.jumpKey.isPressed()) {
-                Vec3d velocity = player.getVelocity();
+            Vec3d velocity = player.getVelocity();
+            boolean jumpKeyPressed = MinecraftClient.getInstance().options.jumpKey.isPressed();
 
-                // ensures that player is in the air, not swimming, and falling before gliding
-                if (!player.isOnGround() && !player.isSwimming() && velocity.y < 0)
-                    startGliding(player);
+            // ensures that player is holding jump key, in air, not in fluid, and falling to start or continue gliding
+            if (jumpKeyPressed && !player.isOnGround() && !player.isInFluid() && velocity.y < 0) {
+                startGliding(player);
 
                 // on server side, increments tick counter and checks if a second (20 ticks) of gliding has passed
                 if (!world.isClient() && ticksGlidingContinuously++ != 0 && ticksGlidingContinuously % 20 == 0) {
