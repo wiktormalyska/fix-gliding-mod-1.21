@@ -1,6 +1,7 @@
 package com.l33tfox.gliding;
 
 import com.l33tfox.gliding.items.ModItemsRegistry;
+import com.l33tfox.gliding.networking.ModPackets;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -20,5 +21,6 @@ public class Gliding implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		ModItemsRegistry.initialize();
+		ModPackets.registerC2SPackets();
 	}
 }
