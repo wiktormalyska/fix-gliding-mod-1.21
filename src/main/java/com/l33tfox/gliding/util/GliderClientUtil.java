@@ -22,6 +22,14 @@ public class GliderClientUtil {
         return player.isHolding(itemStack -> itemStack.getItem() instanceof GliderItem);
     }
 
+    public static boolean offHandHoldingGlider(ClientPlayerEntity player) {
+        return player.getOffHandStack().getItem() instanceof GliderItem;
+    }
+
+    public static boolean mainHandHoldingGlider(ClientPlayerEntity player) {
+        return player.getMainHandStack().getItem() instanceof GliderItem;
+    }
+
     public static boolean isUsingGlider(ClientPlayerEntity player) {
         return isHoldingGlider(player) && player.input.jumping;
     }
@@ -32,12 +40,12 @@ public class GliderClientUtil {
         return isUsingGlider(player) && !player.isOnGround() && !player.isInFluid() && velocity.y < 0;
     }
 
-    public static void playerGliderMovement(PlayerEntity player) {
+    public static void playerGliderMovement(ClientPlayerEntity player) {
         player.setVelocity(player.getVelocity().x * GliderItem.GLIDE_SPEED_INCREASE_FACTOR,
                 GliderItem.GLIDE_DROP_SPEED, player.getVelocity().z * GliderItem.GLIDE_SPEED_INCREASE_FACTOR);
     }
 
-    public static void resetFallDamage(ServerPlayerEntity player) {
+    public static void resetFallDamage(ClientPlayerEntity player) {
         player.fallDistance = 0;
     }
 
@@ -49,6 +57,7 @@ public class GliderClientUtil {
         if (player != null && GliderClientUtil.isGliding(player)) {
             // move the player on the client side
             GliderClientUtil.playerGliderMovement(player);
+            resetFallDamage(player);
 
             // send a packet to the server so that it can move the player on the server side as well
             ClientPlayNetworking.send(new GlidingC2SPacket(true));
