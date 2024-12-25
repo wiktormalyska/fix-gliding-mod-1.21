@@ -26,7 +26,7 @@ public abstract class HeldItemRendererMixin {
     private void hideFirstPersonGliderItem(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode,
                                            boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                            int light, CallbackInfo ci) {
-        if (entity instanceof ClientPlayerEntity player && GliderClientUtil.isUsingGlider(player)) {
+        if (entity instanceof ClientPlayerEntity player && GliderClientUtil.isUsingGliderMoreThanOneJump(player)) {
             if ((GliderClientUtil.mainHandHoldingGlider(player) && stack.getItem() instanceof GliderItem) ||
                     (GliderClientUtil.offHandHoldingGlider(player) && stack.getItem() instanceof GliderItem))
                 ci.cancel();
@@ -37,7 +37,7 @@ public abstract class HeldItemRendererMixin {
             "Lnet/minecraft/client/network/ClientPlayerEntity;I)V", cancellable = true)
     private void hideFirstPersonHand(float tickDelta, MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers,
                                      ClientPlayerEntity player, int light, CallbackInfo ci) {
-        if (GliderClientUtil.isUsingGlider(player) && player.getMainHandStack().isEmpty())
+        if (GliderClientUtil.isUsingGliderMoreThanOneJump(player) && player.getMainHandStack().isEmpty())
             ci.cancel();
     }
 }

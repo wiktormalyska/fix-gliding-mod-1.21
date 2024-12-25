@@ -3,10 +3,11 @@
 	"package": "com.l33tfox.gliding.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+
 	],
 	"client": [
-		"HeldItemRendererMixin"
+		"HeldItemRendererMixin",
+		"BipedEntityModelMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

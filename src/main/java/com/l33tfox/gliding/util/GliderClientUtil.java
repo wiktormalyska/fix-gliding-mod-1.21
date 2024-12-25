@@ -4,6 +4,7 @@ import com.l33tfox.gliding.items.GliderItem;
 import com.l33tfox.gliding.networking.packet.GliderDamageC2SPacket;
 import com.l33tfox.gliding.networking.packet.GlidingC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.block.entity.VaultBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,6 +18,7 @@ A bunch of client-side utility methods for using gliders.
 public class GliderClientUtil {
 
     public static int ticksGlidingContinuously = 0;
+    public static int ticksUsingGlider = 0;
 
     public static boolean isHoldingGlider(ClientPlayerEntity player) {
         return player.isHolding(itemStack -> itemStack.getItem() instanceof GliderItem);
@@ -34,10 +36,15 @@ public class GliderClientUtil {
         return isHoldingGlider(player) && player.input.jumping;
     }
 
+    public static boolean isUsingGliderMoreThanOneJump(ClientPlayerEntity player) {
+        return isUsingGlider(player) && ticksUsingGlider > 4;
+    }
+
     public static boolean isGliding(ClientPlayerEntity player) {
         Vec3d velocity = player.getVelocity();
 
-        return isUsingGlider(player) && !player.isOnGround() && !player.isInFluid() && velocity.y < 0;
+        return isUsingGlider(player) && !player.isOnGround() && !player.isInFluid() && !player.isFallFlying()
+                && velocity.y < 0;
     }
 
     public static void playerGliderMovement(ClientPlayerEntity player) {
@@ -52,6 +59,10 @@ public class GliderClientUtil {
     // Called at the end of every tick on the client using a CLIENT_END_TICK event registered in GlidingClient class
     public static void glidingTick(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
+
+        if (player != null && GliderClientUtil.isUsingGlider(player))
+            ticksUsingGlider++;
+        else ticksUsingGlider = 0;
 
         // if player is in a world and is already gliding or in a state to glide
         if (player != null && GliderClientUtil.isGliding(player)) {
