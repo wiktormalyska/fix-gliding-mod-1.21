@@ -22,5 +22,7 @@ public class Gliding implements ModInitializer {
 		// Proceed with mild caution.
 		ModItemsRegistry.initialize();
 		ModPackets.registerC2SPackets();
+		ModPackets.registerS2CPackets();
+		ModPackets.registerC2SReceivers();
 	}
 }

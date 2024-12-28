@@ -2,6 +2,7 @@ package com.l33tfox.gliding.mixin;
 
 import com.l33tfox.gliding.items.GliderItem;
 import com.l33tfox.gliding.util.GliderClientUtil;
+import com.l33tfox.gliding.util.GliderUtil;
 import net.minecraft.block.entity.VaultBlockEntity;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -10,6 +11,7 @@ import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,8 +29,8 @@ public abstract class HeldItemRendererMixin {
                                            boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                            int light, CallbackInfo ci) {
         if (entity instanceof ClientPlayerEntity player && GliderClientUtil.isUsingGliderMoreThanOneJump(player)) {
-            if ((GliderClientUtil.mainHandHoldingGlider(player) && stack.getItem() instanceof GliderItem) ||
-                    (GliderClientUtil.offHandHoldingGlider(player) && stack.getItem() instanceof GliderItem))
+            if ((GliderUtil.mainHandHoldingGlider(player) && stack.getItem() instanceof GliderItem) ||
+                    (GliderUtil.offHandHoldingGlider(player) && stack.getItem() instanceof GliderItem))
                 ci.cancel();
         }
     }

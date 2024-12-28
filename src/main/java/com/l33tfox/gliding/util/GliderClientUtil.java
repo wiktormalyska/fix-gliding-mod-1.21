@@ -1,14 +1,12 @@
 package com.l33tfox.gliding.util;
 
-import com.l33tfox.gliding.items.GliderItem;
+import com.l33tfox.gliding.IPlayerGlidingMixin;
 import com.l33tfox.gliding.networking.packet.GliderDamageC2SPacket;
 import com.l33tfox.gliding.networking.packet.GlidingC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.block.entity.VaultBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 /*
@@ -20,55 +18,40 @@ public class GliderClientUtil {
     public static int ticksGlidingContinuously = 0;
     public static int ticksUsingGlider = 0;
 
-    public static boolean isHoldingGlider(ClientPlayerEntity player) {
-        return player.isHolding(itemStack -> itemStack.getItem() instanceof GliderItem);
+    public static boolean isActivatingGlider(ClientPlayerEntity player) {
+        return GliderUtil.isHoldingGlider(player) && player.input.jumping;
     }
 
-    public static boolean offHandHoldingGlider(ClientPlayerEntity player) {
-        return player.getOffHandStack().getItem() instanceof GliderItem;
-    }
-
-    public static boolean mainHandHoldingGlider(ClientPlayerEntity player) {
-        return player.getMainHandStack().getItem() instanceof GliderItem;
-    }
-
-    public static boolean isUsingGlider(ClientPlayerEntity player) {
-        return isHoldingGlider(player) && player.input.jumping;
-    }
-
-    public static boolean isUsingGliderMoreThanOneJump(ClientPlayerEntity player) {
-        return isUsingGlider(player) && ticksUsingGlider > 4;
+    public static boolean isUsingGliderMoreThanOneJump(PlayerEntity player) {
+        return ticksUsingGlider > 4;
     }
 
     public static boolean isGliding(ClientPlayerEntity player) {
         Vec3d velocity = player.getVelocity();
 
-        return isUsingGlider(player) && !player.isOnGround() && !player.isInFluid() && !player.isFallFlying()
+        return isActivatingGlider(player) && !player.isOnGround() && !player.isInFluid() && !player.isFallFlying()
                 && velocity.y < 0;
-    }
-
-    public static void playerGliderMovement(ClientPlayerEntity player) {
-        player.setVelocity(player.getVelocity().x * GliderItem.GLIDE_SPEED_INCREASE_FACTOR,
-                GliderItem.GLIDE_DROP_SPEED, player.getVelocity().z * GliderItem.GLIDE_SPEED_INCREASE_FACTOR);
-    }
-
-    public static void resetFallDamage(ClientPlayerEntity player) {
-        player.fallDistance = 0;
     }
 
     // Called at the end of every tick on the client using a CLIENT_END_TICK event registered in GlidingClient class
     public static void glidingTick(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
 
-        if (player != null && GliderClientUtil.isUsingGlider(player))
+        if (player != null && GliderClientUtil.isActivatingGlider(player)) {
             ticksUsingGlider++;
-        else ticksUsingGlider = 0;
+            ((IPlayerGlidingMixin) player).setIsActivatingGlider(true);
+        }
+        else {
+            ticksUsingGlider = 0;
+            if (player != null)
+                ((IPlayerGlidingMixin) player).setIsActivatingGlider(false);
+        }
 
         // if player is in a world and is already gliding or in a state to glide
         if (player != null && GliderClientUtil.isGliding(player)) {
             // move the player on the client side
-            GliderClientUtil.playerGliderMovement(player);
-            resetFallDamage(player);
+            GliderUtil.playerGliderMovement(player);
+            GliderUtil.resetFallDamage(player);
 
             // send a packet to the server so that it can move the player on the server side as well
             ClientPlayNetworking.send(new GlidingC2SPacket(true));

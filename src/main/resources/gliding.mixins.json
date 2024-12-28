@@ -1,15 +1,15 @@
 {
-	"required": true,
-	"package": "com.l33tfox.gliding.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-
-	],
-	"client": [
-		"HeldItemRendererMixin",
-		"BipedEntityModelMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "com.l33tfox.gliding.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PlayerEntityMixin"
+  ],
+  "client": [
+    "BipedEntityModelMixin",
+    "HeldItemRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

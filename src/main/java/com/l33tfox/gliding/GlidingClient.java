@@ -9,7 +9,7 @@ public class GlidingClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ModPackets.registerS2CPackets();
+        ModPackets.registerS2CReceivers();
 
         ClientTickEvents.END_CLIENT_TICK.register(GliderClientUtil::glidingTick);
     }
