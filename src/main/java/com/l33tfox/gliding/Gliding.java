@@ -17,10 +17,9 @@ public class Gliding implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
 		ModItemsRegistry.initialize();
+
+		// Registered on common side (both client and server)
 		ModPackets.registerC2SPackets();
 		ModPackets.registerS2CPackets();
 		ModPackets.registerC2SReceivers();

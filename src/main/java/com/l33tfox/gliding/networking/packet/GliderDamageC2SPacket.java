@@ -26,6 +26,7 @@ public record GliderDamageC2SPacket(boolean damageGlider) implements CustomPaylo
         return ID;
     }
 
+    // Method for receiving GliderDamageC2SPackets (on server side)
     public void receive(ServerPlayNetworking.Context context) {
         if (damageGlider) {
             ServerPlayerEntity player = context.player();

@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /*
-A bunch of server-side utility methods for using gliders.
+A bunch of utility methods for using gliders.
  */
 
 public class GliderUtil {

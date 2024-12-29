@@ -26,6 +26,7 @@ public record OtherPlayerGliderActivatedS2CPacket(int otherPlayerID, boolean isA
         return ID;
     }
 
+    // Method for receiving OtherPlayerGliderActivatedS2CPackets (on client side)
     public void receive(ClientPlayNetworking.Context context) {
         OtherClientPlayerEntity otherPlayer = (OtherClientPlayerEntity) context.client().world.getEntityById(otherPlayerID);
 

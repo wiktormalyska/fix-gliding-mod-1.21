@@ -59,6 +59,7 @@ public class GliderClientUtil {
                     // send a packet to the server so that it can update the glider's durability
                     ClientPlayNetworking.send(new GliderDamageC2SPacket(true));
             }
+        // if the player exists and was previously activating glider but not anymore, send packets to update
         } else if (player != null && ((PlayerEntityDuck) player).isActivatingGlider()) {
             ticksUsingGlider = 0;
             ((PlayerEntityDuck) player).setIsActivatingGlider(false);

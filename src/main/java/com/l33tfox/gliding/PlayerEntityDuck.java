@@ -1,5 +1,10 @@
 package com.l33tfox.gliding;
 
+
+/*
+Duck interface to allow mixin to add accessible fields and methods
+ */
+
 public interface PlayerEntityDuck {
 
     public boolean isGliding();

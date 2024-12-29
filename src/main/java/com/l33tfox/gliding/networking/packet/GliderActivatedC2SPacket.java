@@ -28,15 +28,18 @@ public record GliderActivatedC2SPacket(boolean isGliderActivated, boolean isGlid
         return ID;
     }
 
+    // Method for receiving GliderActivatedC2SPackets (on server side)
     public void receive(ServerPlayNetworking.Context context) {
+        ServerPlayerEntity player = context.player();
+
         if (isGliding) {
-            ((PlayerEntityDuck) context.player()).setIsActivatingGlider(true);
-            GliderUtil.playerGliderMovement(context.player());
-            GliderUtil.resetFallDamage(context.player());
-            Gliding.LOGGER.info("GlidingC2SPacket received. player: " + context.player());
+            ((PlayerEntityDuck) player).setIsActivatingGlider(true);
+            GliderUtil.playerGliderMovement(player);
+            GliderUtil.resetFallDamage(player);
         }
 
-        for (ServerPlayerEntity player : PlayerLookup.tracking(context.player()))
-            ServerPlayNetworking.send(player, new OtherPlayerGliderActivatedS2CPacket(context.player().getId(), isGliderActivated));
+        // send a packet to the clients of all other players tracking the player gliding
+        for (ServerPlayerEntity otherPlayer : PlayerLookup.tracking(context.player()))
+            ServerPlayNetworking.send(otherPlayer, new OtherPlayerGliderActivatedS2CPacket(player.getId(), isGliderActivated));
     }
 }
