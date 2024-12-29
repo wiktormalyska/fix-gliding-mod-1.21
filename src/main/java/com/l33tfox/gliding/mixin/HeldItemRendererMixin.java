@@ -1,5 +1,6 @@
 package com.l33tfox.gliding.mixin;
 
+import com.l33tfox.gliding.PlayerEntityDuck;
 import com.l33tfox.gliding.items.GliderItem;
 import com.l33tfox.gliding.util.GliderClientUtil;
 import com.l33tfox.gliding.util.GliderUtil;
@@ -28,7 +29,7 @@ public abstract class HeldItemRendererMixin {
     private void hideFirstPersonGliderItem(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode,
                                            boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                            int light, CallbackInfo ci) {
-        if (entity instanceof ClientPlayerEntity player && GliderClientUtil.isUsingGliderMoreThanOneJump(player)) {
+        if (entity instanceof PlayerEntity player && ((PlayerEntityDuck) player).isActivatingGlider()) {
             if ((GliderUtil.mainHandHoldingGlider(player) && stack.getItem() instanceof GliderItem) ||
                     (GliderUtil.offHandHoldingGlider(player) && stack.getItem() instanceof GliderItem))
                 ci.cancel();
@@ -39,7 +40,7 @@ public abstract class HeldItemRendererMixin {
             "Lnet/minecraft/client/network/ClientPlayerEntity;I)V", cancellable = true)
     private void hideFirstPersonHand(float tickDelta, MatrixStack matrices, VertexConsumerProvider.Immediate vertexConsumers,
                                      ClientPlayerEntity player, int light, CallbackInfo ci) {
-        if (GliderClientUtil.isUsingGliderMoreThanOneJump(player) && player.getMainHandStack().isEmpty())
+        if (((PlayerEntityDuck) player).isActivatingGlider() && player.getMainHandStack().isEmpty())
             ci.cancel();
     }
 }

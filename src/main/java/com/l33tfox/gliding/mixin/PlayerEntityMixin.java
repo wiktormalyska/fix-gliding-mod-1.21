@@ -1,12 +1,12 @@
 package com.l33tfox.gliding.mixin;
 
-import com.l33tfox.gliding.IPlayerGlidingMixin;
+import com.l33tfox.gliding.PlayerEntityDuck;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin implements IPlayerGlidingMixin {
+public abstract class PlayerEntityMixin implements PlayerEntityDuck {
 
     @Unique
     private boolean isGliding;

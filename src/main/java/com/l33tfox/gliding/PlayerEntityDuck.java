@@ -1,6 +1,6 @@
 package com.l33tfox.gliding;
 
-public interface IPlayerGlidingMixin {
+public interface PlayerEntityDuck {
 
     public boolean isGliding();
     public void setIsGliding(boolean isPlayerGliding);
