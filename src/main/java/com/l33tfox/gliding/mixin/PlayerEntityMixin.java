@@ -13,19 +13,19 @@ public abstract class PlayerEntityMixin implements PlayerEntityDuck {
     @Unique
     private boolean isActivatingGlider;
 
-    public boolean isGliding() {
+    public boolean gliding$isGliding() {
         return isGliding;
     }
 
-    public void setIsGliding(boolean isPlayerGliding) {
+    public void gliding$setIsGliding(boolean isPlayerGliding) {
         isGliding = isPlayerGliding;
     }
 
-    public boolean isActivatingGlider() {
+    public boolean gliding$isActivatingGlider() {
         return isActivatingGlider;
     }
 
-    public void setIsActivatingGlider(boolean isPlayerActivatingGlider) {
+    public void gliding$setIsActivatingGlider(boolean isPlayerActivatingGlider) {
         isActivatingGlider = isPlayerActivatingGlider;
     }
 }

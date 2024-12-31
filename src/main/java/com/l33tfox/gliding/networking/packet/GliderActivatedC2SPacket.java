@@ -33,13 +33,13 @@ public record GliderActivatedC2SPacket(boolean isGliderActivated, boolean isGlid
         ServerPlayerEntity player = context.player();
 
         if (isGliding) {
-            ((PlayerEntityDuck) player).setIsActivatingGlider(true);
+            ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(true);
             GliderUtil.playerGliderMovement(player);
             GliderUtil.resetFallDamage(player);
         }
 
         // send a packet to the clients of all other players tracking the player gliding
         for (ServerPlayerEntity otherPlayer : PlayerLookup.tracking(context.player()))
-            ServerPlayNetworking.send(otherPlayer, new OtherPlayerGliderActivatedS2CPacket(player.getId(), isGliderActivated));
+            ServerPlayNetworking.send(otherPlayer, new OtherPlayerGliderActivatedS2CPacket(player.getId(), isGliderActivated, isGliding));
     }
 }

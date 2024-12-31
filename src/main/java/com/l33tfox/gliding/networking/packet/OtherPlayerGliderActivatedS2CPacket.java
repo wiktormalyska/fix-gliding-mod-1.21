@@ -10,7 +10,7 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
-public record OtherPlayerGliderActivatedS2CPacket(int otherPlayerID, boolean isActivatingGlider) implements CustomPayload {
+public record OtherPlayerGliderActivatedS2CPacket(int otherPlayerID, boolean isActivatingGlider, boolean isPlayerGliding) implements CustomPayload {
 
     public static final Identifier OTHER_PLAYER_GLIDING_ID = Identifier.of(Gliding.MOD_ID, "otherplayerglidings2c");
 
@@ -19,7 +19,8 @@ public record OtherPlayerGliderActivatedS2CPacket(int otherPlayerID, boolean isA
 
     public static final PacketCodec<RegistryByteBuf, OtherPlayerGliderActivatedS2CPacket> CODEC =
             PacketCodec.tuple(PacketCodecs.INTEGER, OtherPlayerGliderActivatedS2CPacket::otherPlayerID, PacketCodecs.BOOL,
-            OtherPlayerGliderActivatedS2CPacket::isActivatingGlider, OtherPlayerGliderActivatedS2CPacket::new);
+            OtherPlayerGliderActivatedS2CPacket::isActivatingGlider, PacketCodecs.BOOL,
+            OtherPlayerGliderActivatedS2CPacket::isPlayerGliding, OtherPlayerGliderActivatedS2CPacket::new);
 
     @Override
     public Id<? extends CustomPayload> getId() {
@@ -31,7 +32,8 @@ public record OtherPlayerGliderActivatedS2CPacket(int otherPlayerID, boolean isA
         OtherClientPlayerEntity otherPlayer = (OtherClientPlayerEntity) context.client().world.getEntityById(otherPlayerID);
 
         if (otherPlayer != null) {
-            ((PlayerEntityDuck) otherPlayer).setIsActivatingGlider(isActivatingGlider);
+            ((PlayerEntityDuck) otherPlayer).gliding$setIsActivatingGlider(isActivatingGlider);
+            ((PlayerEntityDuck) otherPlayer).gliding$setIsGliding(isPlayerGliding);
         }
     }
 }

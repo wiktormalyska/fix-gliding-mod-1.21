@@ -1,13 +1,11 @@
 package com.l33tfox.gliding.util;
 
 import com.l33tfox.gliding.PlayerEntityDuck;
-import com.l33tfox.gliding.items.GliderItem;
 import com.l33tfox.gliding.networking.packet.GliderDamageC2SPacket;
 import com.l33tfox.gliding.networking.packet.GliderActivatedC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 /*
@@ -48,7 +46,8 @@ public class GliderClientUtil {
                 GliderUtil.resetFallDamage(player);
 
                 // update the player model on this client
-                ((PlayerEntityDuck) player).setIsActivatingGlider(true);
+                ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(true);
+                ((PlayerEntityDuck) player).gliding$setIsGliding(true);
 
                 // send a packet to the server so that it can move the player on the server side as well, and also
                 // send packets to nearby players' clients who are tracking this player to update the player model
@@ -60,9 +59,10 @@ public class GliderClientUtil {
                     ClientPlayNetworking.send(new GliderDamageC2SPacket(true));
             }
         // if the player exists and was previously activating glider but not anymore, send packets to update
-        } else if (player != null && ((PlayerEntityDuck) player).isActivatingGlider()) {
+        } else if (player != null && ((PlayerEntityDuck) player).gliding$isActivatingGlider()) {
             ticksUsingGlider = 0;
-            ((PlayerEntityDuck) player).setIsActivatingGlider(false);
+            ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(false);
+            ((PlayerEntityDuck) player).gliding$setIsGliding(false);
             ClientPlayNetworking.send(new GliderActivatedC2SPacket(false, false));
         }
     }
