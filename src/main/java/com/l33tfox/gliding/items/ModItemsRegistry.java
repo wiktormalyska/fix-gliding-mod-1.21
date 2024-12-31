@@ -17,7 +17,7 @@ public class ModItemsRegistry {
     public static final Item GOLDEN_GLIDER = register("golden_glider", new GliderItem(new Item.Settings().maxDamage(25)));
     public static final Item IRON_GLIDER = register("iron_glider", new GliderItem(new Item.Settings().maxDamage(150)));
     public static final Item DIAMOND_GLIDER = register("diamond_glider", new GliderItem(new Item.Settings().maxDamage(250)));
-    public static final Item NETHERITE_GLIDER = register("netherite_glider", new GliderItem(new Item.Settings().maxDamage(400)));
+    public static final Item NETHERITE_GLIDER = register("netherite_glider", new GliderItem(new Item.Settings().maxDamage(400).fireproof()));
 
     public static void initialize() {
         Gliding.LOGGER.info("Registering mod items for " + Gliding.MOD_ID);

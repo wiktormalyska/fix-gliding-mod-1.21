@@ -11,7 +11,7 @@
             "tag": "minecraft:wool"
         },
         "O": {
-            "tag": "minecraft:planks"
+            "item": "minecraft:cobblestone"
         },
         "S": {
             "item": "minecraft:stick"
@@ -19,6 +19,6 @@
     },
     "result": {
 		"count": 1,
-		"id": "gliding:wooden_glider"
+		"id": "gliding:stone_glider"
 	}
 }
