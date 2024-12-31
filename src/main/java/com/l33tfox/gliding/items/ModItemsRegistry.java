@@ -11,19 +11,13 @@ import net.minecraft.util.Identifier;
 
 public class ModItemsRegistry {
 
-    // Registers a wooden glider item that has a max durability of 59 (and stack size of 1).
-    public static final Item WOODEN_GLIDER = register("wooden_glider", new GliderItem(ToolMaterials.WOOD,
-            new Item.Settings()));
-    public static final Item STONE_GLIDER = register("stone_glider", new GliderItem(ToolMaterials.STONE,
-            new Item.Settings()));
-    public static final Item GOLDEN_GLIDER = register("golden_glider", new GliderItem(ToolMaterials.GOLD,
-            new Item.Settings()));
-    public static final Item IRON_GLIDER = register("iron_glider", new GliderItem(ToolMaterials.IRON,
-            new Item.Settings()));
-    public static final Item DIAMOND_GLIDER = register("diamond_glider", new GliderItem(ToolMaterials.DIAMOND,
-            new Item.Settings()));
-    public static final Item NETHERITE_GLIDER = register("netherite_glider", new GliderItem(ToolMaterials.NETHERITE,
-            new Item.Settings()));
+    // Registers glider items with max durabilities (and stack size of 1).
+    public static final Item WOODEN_GLIDER = register("wooden_glider", new GliderItem(new Item.Settings().maxDamage(50)));
+    public static final Item STONE_GLIDER = register("stone_glider", new GliderItem(new Item.Settings().maxDamage(100)));
+    public static final Item GOLDEN_GLIDER = register("golden_glider", new GliderItem(new Item.Settings().maxDamage(25)));
+    public static final Item IRON_GLIDER = register("iron_glider", new GliderItem(new Item.Settings().maxDamage(150)));
+    public static final Item DIAMOND_GLIDER = register("diamond_glider", new GliderItem(new Item.Settings().maxDamage(250)));
+    public static final Item NETHERITE_GLIDER = register("netherite_glider", new GliderItem(new Item.Settings().maxDamage(400)));
 
     public static void initialize() {
         Gliding.LOGGER.info("Registering mod items for " + Gliding.MOD_ID);

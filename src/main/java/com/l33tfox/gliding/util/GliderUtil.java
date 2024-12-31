@@ -3,6 +3,7 @@ package com.l33tfox.gliding.util;
 import com.l33tfox.gliding.items.GliderItem;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /*
@@ -21,6 +22,17 @@ public class GliderUtil {
 
     public static boolean mainHandHoldingGlider(PlayerEntity player) {
         return player.getMainHandStack().getItem() instanceof GliderItem;
+    }
+
+    public static Item getGliderItemInHand(PlayerEntity player) {
+        Item gliderItem = null;
+
+        if (mainHandHoldingGlider(player))
+            gliderItem = player.getMainHandStack().getItem();
+        else if (offHandHoldingGlider(player))
+            gliderItem = player.getOffHandStack().getItem();
+
+        return gliderItem;
     }
 
     public static void playerGliderMovement(PlayerEntity player) {
