@@ -8,6 +8,8 @@
   "client": [
     "BipedEntityModelMixin",
     "HeldItemRendererMixin",
+    "ItemRendererMixin",
+    "ModelLoaderMixin",
     "PlayerEntityRendererMixin"
   ],
   "injectors": {
