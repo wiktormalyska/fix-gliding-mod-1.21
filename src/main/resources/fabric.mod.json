@@ -2,10 +2,10 @@
 	"schemaVersion": 1,
 	"id": "gliding",
 	"version": "${version}",
-	"name": "${mod_name}",
+	"name": "Gliding",
 	"description": "Improving Minecraft's air transportation by adding gliders",
 	"authors": [
-		"${mod_author}"
+		"L33tfox"
 	],
 	"contact": {
 		"homepage": "https://linktree.com/l33tfox",
