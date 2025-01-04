@@ -1,8 +1,10 @@
 package com.l33tfox.gliding.util;
 
 import com.l33tfox.gliding.PlayerEntityDuck;
-import com.l33tfox.gliding.networking.packet.GliderDamageC2SPacket;
-import com.l33tfox.gliding.networking.packet.GliderActivatedC2SPacket;
+import com.l33tfox.gliding.client.sound.GliderSoundManager;
+import com.l33tfox.gliding.client.sound.GlidingWindSoundInstance;
+import com.l33tfox.gliding.networking.payload.GliderDamageC2SPayload;
+import com.l33tfox.gliding.networking.payload.GliderActivatedC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -41,9 +43,13 @@ public class GliderClientUtil {
 
             // if player is already gliding or in a state to glide
             if (GliderClientUtil.isGliding(player)) {
+
                 // move the player on the client side
                 GliderUtil.playerGliderMovement(player);
                 GliderUtil.resetFallDamage(player);
+
+                GliderSoundManager gliderSoundManager = GliderSoundManager.getInstance();
+                gliderSoundManager.play(new GlidingWindSoundInstance(player, gliderSoundManager));
 
                 // update the player model on this client
                 ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(true);
@@ -51,19 +57,22 @@ public class GliderClientUtil {
 
                 // send a packet to the server so that it can move the player on the server side as well, and also
                 // send packets to nearby players' clients who are tracking this player to update the player model
-                ClientPlayNetworking.send(new GliderActivatedC2SPacket(true, true));
+                ClientPlayNetworking.send(new GliderActivatedC2SPayload(true, true));
 
-                // check if the player has been using glider for 20 consecutive ticks (1 second)
-                if (ticksUsingGlider % 20 == 0)
-                    // send a packet to the server so that it can update the glider's durability
-                    ClientPlayNetworking.send(new GliderDamageC2SPacket(true));
+            } else if (GliderClientUtil.isUsingGliderMoreThanOneJump(player)) {
+
+                ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(true);
+                ((PlayerEntityDuck) player).gliding$setIsGliding(false);
+                ClientPlayNetworking.send(new GliderActivatedC2SPayload(true, false));
             }
+
         // if the player exists and was previously activating glider but not anymore, send packets to update
         } else if (player != null && ((PlayerEntityDuck) player).gliding$isActivatingGlider()) {
             ticksUsingGlider = 0;
+
             ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(false);
             ((PlayerEntityDuck) player).gliding$setIsGliding(false);
-            ClientPlayNetworking.send(new GliderActivatedC2SPacket(false, false));
+            ClientPlayNetworking.send(new GliderActivatedC2SPayload(false, false));
         }
     }
 }

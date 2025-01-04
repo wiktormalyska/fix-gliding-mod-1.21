@@ -4,20 +4,19 @@ import com.l33tfox.gliding.Gliding;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModItemsRegistry {
 
-    // Registers glider items with max durabilities (and stack size of 1).
-    public static final Item WOODEN_GLIDER = register("wooden_glider", new GliderItem(new Item.Settings().maxDamage(50)));
-    public static final Item STONE_GLIDER = register("stone_glider", new GliderItem(new Item.Settings().maxDamage(100)));
-    public static final Item GOLDEN_GLIDER = register("golden_glider", new GliderItem(new Item.Settings().maxDamage(25)));
-    public static final Item IRON_GLIDER = register("iron_glider", new GliderItem(new Item.Settings().maxDamage(150)));
-    public static final Item DIAMOND_GLIDER = register("diamond_glider", new GliderItem(new Item.Settings().maxDamage(250)));
-    public static final Item NETHERITE_GLIDER = register("netherite_glider", new GliderItem(new Item.Settings().maxDamage(400).fireproof()));
+    // Registers glider items.
+    public static final Item WOODEN_GLIDER = register("wooden_glider", new GliderItem(-0.26, 1.01, new Item.Settings().maxCount(1)));
+    public static final Item STONE_GLIDER = register("stone_glider", new GliderItem(-0.22, 1.02, new Item.Settings().maxCount(1)));
+    public static final Item IRON_GLIDER = register("iron_glider", new GliderItem(-0.18, 1.03, new Item.Settings().maxCount(1)));
+    public static final Item GOLDEN_GLIDER = register("golden_glider", new GliderItem(-0.16, 1.04, new Item.Settings().maxCount(1)));
+    public static final Item DIAMOND_GLIDER = register("diamond_glider", new GliderItem(-0.14, 1.05, new Item.Settings().maxCount(1)));
+    public static final Item NETHERITE_GLIDER = register("netherite_glider", new GliderItem(-0.12, 1.06, new Item.Settings().maxCount(1).fireproof()));
 
     public static void initialize() {
         Gliding.LOGGER.info("Registering mod items for " + Gliding.MOD_ID);

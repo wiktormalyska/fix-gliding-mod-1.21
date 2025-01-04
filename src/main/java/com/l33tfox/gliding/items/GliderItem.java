@@ -4,11 +4,14 @@ import net.minecraft.item.*;
 
 public class GliderItem extends Item {
 
-    public static final double GLIDE_DROP_SPEED = -0.15;
-    public static final double GLIDE_SPEED_INCREASE_FACTOR = 1.06;
+    public double glideDropVelocity;
+    public double glideSpeedIncreaseFactor;
 
-    public GliderItem(Settings settings) {
+    public GliderItem(double dropVelocity, double speedFactor, Settings settings) {
         super(settings);
+
+        glideDropVelocity = dropVelocity;
+        glideSpeedIncreaseFactor = speedFactor;
     }
 
 }

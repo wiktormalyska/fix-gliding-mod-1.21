@@ -21,6 +21,9 @@ public abstract class ModelLoaderMixin {
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/model/ModelLoader;loadItemModel(Lnet/minecraft/client/util/ModelIdentifier;)V", ordinal = 1))
     private void onInit(BlockColors blockColors, Profiler profiler, Map jsonUnbakedModels, Map blockStates, CallbackInfo ci) {
-        this.loadItemModel(GlidingClient.GLIDER_3D_FIRST_PERSON);
+        for (String gliderItemType : GlidingClient.GLIDER_3D_MODELS_FIRST_PERSON.keySet()) {
+            ModelIdentifier gliderModelIdentifier = GlidingClient.GLIDER_3D_MODELS_FIRST_PERSON.get(gliderItemType);
+            loadItemModel(gliderModelIdentifier);
+        }
     }
 }

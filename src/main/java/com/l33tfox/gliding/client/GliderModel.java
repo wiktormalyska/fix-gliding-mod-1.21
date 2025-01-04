@@ -1,17 +1,10 @@
 package com.l33tfox.gliding.client;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.resource.Resource;
-import net.minecraft.util.Identifier;
-
-import java.util.function.Function;
 
 public class GliderModel extends EntityModel<Entity> {
 

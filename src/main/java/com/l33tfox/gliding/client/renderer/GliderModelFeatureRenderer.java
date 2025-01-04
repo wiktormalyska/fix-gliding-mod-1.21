@@ -17,7 +17,6 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.util.Identifier;
 
 public class GliderModelFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
@@ -35,7 +34,7 @@ public class GliderModelFeatureRenderer extends FeatureRenderer<AbstractClientPl
                        AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta,
                        float animationProgress, float headYaw, float headPitch) {
         if (((PlayerEntityDuck) player).gliding$isActivatingGlider() && GliderUtil.isHoldingGlider(player)) {
-            String gliderID = String.valueOf(Registries.ITEM.getId(GliderUtil.getGliderItemInHand(player))).substring(8);
+            String gliderID = Registries.ITEM.getId(GliderUtil.getGliderItemInHand(player)).getPath();
             Identifier gliderCutout = Identifier.of(Gliding.MOD_ID, "textures/item/" + gliderID + "_model.png");
 
             matrices.push();

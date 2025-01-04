@@ -1,6 +1,5 @@
 package com.l33tfox.gliding.mixin;
 
-import com.l33tfox.gliding.Gliding;
 import com.l33tfox.gliding.PlayerEntityDuck;
 import com.l33tfox.gliding.items.GliderItem;
 import com.l33tfox.gliding.util.GliderUtil;

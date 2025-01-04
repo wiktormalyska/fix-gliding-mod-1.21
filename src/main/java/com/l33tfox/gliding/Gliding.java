@@ -1,7 +1,7 @@
 package com.l33tfox.gliding;
 
 import com.l33tfox.gliding.items.ModItemsRegistry;
-import com.l33tfox.gliding.networking.ModPackets;
+import com.l33tfox.gliding.networking.ModPacketsRegistry;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -20,8 +20,8 @@ public class Gliding implements ModInitializer {
 		ModItemsRegistry.initialize();
 
 		// Registered on common side (both client and server)
-		ModPackets.registerC2SPackets();
-		ModPackets.registerS2CPackets();
-		ModPackets.registerC2SReceivers();
+		ModPacketsRegistry.registerC2SPackets();
+		ModPacketsRegistry.registerS2CPackets();
+		ModPacketsRegistry.registerC2SReceivers();
 	}
 }
