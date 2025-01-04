@@ -25,7 +25,7 @@ public abstract class HeldItemRendererMixin {
     @Inject(at = @At("HEAD"), method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;" +
             "Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;" +
             "Lnet/minecraft/client/render/VertexConsumerProvider;I)V", cancellable = true)
-    private void hideThirdPersonGliderItem(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode,
+    private void hideGliderItem(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode,
                                                           boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                           int light, CallbackInfo ci) {
         if (entity instanceof OtherClientPlayerEntity player && ((PlayerEntityDuck) player).gliding$isActivatingGlider()) {
@@ -38,6 +38,7 @@ public abstract class HeldItemRendererMixin {
             if (GliderUtil.mainHandHoldingGlider(player) && GliderUtil.offHandHoldingGlider(player) && stack == player.getOffHandStack())
                 ci.cancel();
     }
+
     @ModifyVariable(at = @At("STORE"), method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;" +
             "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;" +
             "Lnet/minecraft/client/network/ClientPlayerEntity;I)V")

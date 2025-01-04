@@ -50,7 +50,7 @@ public abstract class ItemRendererMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderBakedItemModel" +
                     "(Lnet/minecraft/client/render/model/BakedModel;Lnet/minecraft/item/ItemStack;IILnet/minecraft/" +
                     "client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;)V"), cancellable = true)
-    private void noGlintIfGliderWhileActivating(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded,
+    private void noGlintGliderWhileActivating(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded,
                                                 MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
                                                 int overlay, BakedModel model, CallbackInfo ci,
                                                 @Local VertexConsumer vertexConsumer, @Local RenderLayer renderLayer) {
@@ -62,11 +62,14 @@ public abstract class ItemRendererMixin {
             ci.cancel();
         } else if (stack.getItem() instanceof GliderItem && ((PlayerEntityDuck) client.player).gliding$isActivatingGlider()
                 && renderMode == ModelTransformationMode.GUI) {
+            // set gui front lighting
             DiffuseLighting.disableGuiDepthLighting();
         }
     }
 
     // ugliest code ever but whatever v2
+    // changes the glider model in the hotbar to be the original 2d texture when gliding. this makes sure that the 3d
+    // glider model doesn't render in the hotbar.
     @ModifyVariable(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/" +
                     "ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/" +
                     "VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", at = @At(value = "HEAD"), argsOnly = true)
@@ -83,6 +86,9 @@ public abstract class ItemRendererMixin {
     }
 
     // ugliest code ever but whatever v3
+    // changes the first person glider model to a 3d json model made in blockbench when the player is gliding. the item
+    // was set to be invisible in third person in blockbench (because the glider is rendered as a feature instead). the
+    // first person 3d glider overlay was set in blockbench also.
     @ModifyVariable(method = "getModel", at = @At(value = "STORE"), ordinal = 1)
     private BakedModel add3DGliderFirstPersonWhenActivating(BakedModel bakedModel, @Local(argsOnly = true) ItemStack stack) {
         if (stack.getItem() instanceof GliderItem && ((PlayerEntityDuck) client.player).gliding$isActivatingGlider()

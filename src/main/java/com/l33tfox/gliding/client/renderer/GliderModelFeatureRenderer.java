@@ -29,6 +29,7 @@ public class GliderModelFeatureRenderer extends FeatureRenderer<AbstractClientPl
         gliderModel = new GliderModel(loader.getModelPart(GlidingClient.GLIDER_LAYER));
     }
 
+    // renders the glider that is visible above the player's head in third person
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
                        AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta,
@@ -42,7 +43,6 @@ public class GliderModelFeatureRenderer extends FeatureRenderer<AbstractClientPl
             gliderModel.setAngles(player, limbAngle, limbDistance, tickDelta, headYaw, headPitch);
             matrices.translate(0.0, -1.75, 0.0);
 
-            //VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(GLIDER_CUTOUT));
             VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(gliderCutout), true, false);
             gliderModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
 

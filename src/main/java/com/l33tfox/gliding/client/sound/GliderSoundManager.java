@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// Code (mostly) from Fabric documentation dynamic sounds page
+// Code (mostly) pasted from Fabric documentation dynamic sounds page and adapted
 
 public class GliderSoundManager {
     // An instance of the client to use Minecraft's default SoundManager

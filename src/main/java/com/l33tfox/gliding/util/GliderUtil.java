@@ -36,6 +36,7 @@ public class GliderUtil {
         GliderItem gliderInHand = GliderUtil.getGliderItemInHand(player);
         double newYVelocity = gliderInHand.glideDropVelocity;
 
+        // only clamp the y velocity if the player was falling faster than the set glider velocity
         if (player.getVelocity().y > gliderInHand.glideDropVelocity)
             newYVelocity = player.getVelocity().y;
 

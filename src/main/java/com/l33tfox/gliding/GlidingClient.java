@@ -16,6 +16,7 @@ import static java.util.Map.entry;
 
 public class GlidingClient implements ClientModInitializer {
 
+    // Layer used by GliderModelFeatureRenderer to render glider above players' heads
     public static final EntityModelLayer GLIDER_LAYER = new EntityModelLayer
             (Identifier.of(Gliding.MOD_ID, "glidermodel"), "glidermodel");
 

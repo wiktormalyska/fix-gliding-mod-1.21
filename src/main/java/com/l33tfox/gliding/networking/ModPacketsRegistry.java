@@ -1,6 +1,5 @@
 package com.l33tfox.gliding.networking;
 
-import com.l33tfox.gliding.networking.payload.GliderDamageC2SPayload;
 import com.l33tfox.gliding.networking.payload.GliderActivatedC2SPayload;
 import com.l33tfox.gliding.networking.payload.OtherPlayerGliderActivatedS2CPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -11,11 +10,9 @@ public class ModPacketsRegistry {
 
     public static void registerC2SPackets() {
         PayloadTypeRegistry.playC2S().register(GliderActivatedC2SPayload.ID, GliderActivatedC2SPayload.CODEC);
-        //PayloadTypeRegistry.playC2S().register(GliderDamageC2SPayload.ID, GliderDamageC2SPayload.CODEC);
     }
 
     public static void registerC2SReceivers() {
-        //ServerPlayNetworking.registerGlobalReceiver(GliderDamageC2SPayload.ID, C2SPacketHandler::receiveGliderDamage);
         ServerPlayNetworking.registerGlobalReceiver(GliderActivatedC2SPayload.ID, C2SPacketHandler::receiveGliderActivated);
     }
 

@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 
 public class ModItemsRegistry {
 
-    // Registers glider items.
+    // registers glider items
     public static final Item WOODEN_GLIDER = register("wooden_glider", new GliderItem(-0.26, 1.01, new Item.Settings().maxCount(1)));
     public static final Item STONE_GLIDER = register("stone_glider", new GliderItem(-0.22, 1.02, new Item.Settings().maxCount(1)));
     public static final Item IRON_GLIDER = register("iron_glider", new GliderItem(-0.18, 1.03, new Item.Settings().maxCount(1)));
@@ -19,10 +19,7 @@ public class ModItemsRegistry {
     public static final Item NETHERITE_GLIDER = register("netherite_glider", new GliderItem(-0.12, 1.06, new Item.Settings().maxCount(1).fireproof()));
 
     public static void initialize() {
-        Gliding.LOGGER.info("Registering mod items for " + Gliding.MOD_ID);
-
-        // Get the event for modifying entries in the tools group.
-        // And register an event handler that adds the mod items to the tools group.
+        // get the event for modifying entries in the tools group and register an event handler that adds the mod items.
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> {
             itemGroup.add(ModItemsRegistry.WOODEN_GLIDER);
             itemGroup.add(ModItemsRegistry.STONE_GLIDER);
@@ -33,12 +30,12 @@ public class ModItemsRegistry {
         });
     }
 
-    // Helper method for registering new mod items.
+    // helper method for registering new mod items
     private static Item register(String id, Item item) {
-        // Create the identifier for the item.
+        // create the identifier for the item
         Identifier itemID = Identifier.of(Gliding.MOD_ID, id);
 
-        // Register and return the item.
+        // register and return the item
         return Registry.register(Registries.ITEM, itemID, item);
     }
 }

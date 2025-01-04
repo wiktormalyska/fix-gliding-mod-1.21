@@ -18,6 +18,7 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         super(ctx, model, shadowRadius);
     }
 
+    // add new feature to player for rendering glider model above head
     @Inject(method = "<init>", at = @At("TAIL"))
     private void addGliderFeature(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci) {
         addFeature(new GliderModelFeatureRenderer(this, ctx.getModelLoader()));

@@ -38,7 +38,7 @@ public class GlidingWindSoundInstance extends MovingSoundInstance {
         return true;
     }
 
-    // almost the same as ElytraSoundInstance's tick method
+    // almost the same as ElytraSoundInstance's tick method. only plays on the client of the player that is gliding
     @Override
     public void tick() {
         tickCount++;
@@ -75,6 +75,7 @@ public class GlidingWindSoundInstance extends MovingSoundInstance {
         z = glidingPlayer.getZ();
     }
 
+    // used in GliderSoundManager for checking if ArrayList contains SoundInstance already
     @Override
     public boolean equals(Object obj) {
         return obj instanceof GlidingWindSoundInstance && ((GlidingWindSoundInstance) obj).glidingPlayer == glidingPlayer;

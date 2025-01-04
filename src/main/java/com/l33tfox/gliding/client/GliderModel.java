@@ -16,6 +16,7 @@ public class GliderModel extends EntityModel<Entity> {
         frame = root.getChild("frame");
     }
 
+    // generated with blockbench
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();

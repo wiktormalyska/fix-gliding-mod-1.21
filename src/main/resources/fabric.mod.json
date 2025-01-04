@@ -2,14 +2,14 @@
 	"schemaVersion": 1,
 	"id": "gliding",
 	"version": "${version}",
-	"name": "gliding",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "${mod_name}",
+	"description": "Improving Minecraft's air transportation by adding gliders",
 	"authors": [
-		"Me!"
+		"${mod_author}"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://linktree.com/l33tfox",
+		"sources": "https://github.com/L33tfx/gliding-mod-1.21"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/gliding/icon.png",

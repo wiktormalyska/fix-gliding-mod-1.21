@@ -3,7 +3,6 @@ package com.l33tfox.gliding.util;
 import com.l33tfox.gliding.PlayerEntityDuck;
 import com.l33tfox.gliding.client.sound.GliderSoundManager;
 import com.l33tfox.gliding.client.sound.GlidingWindSoundInstance;
-import com.l33tfox.gliding.networking.payload.GliderDamageC2SPayload;
 import com.l33tfox.gliding.networking.payload.GliderActivatedC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -59,8 +58,8 @@ public class GliderClientUtil {
                 // send packets to nearby players' clients who are tracking this player to update the player model
                 ClientPlayNetworking.send(new GliderActivatedC2SPayload(true, true));
 
+            // if the player is activating the glider but not gliding
             } else if (GliderClientUtil.isUsingGliderMoreThanOneJump(player)) {
-
                 ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(true);
                 ((PlayerEntityDuck) player).gliding$setIsGliding(false);
                 ClientPlayNetworking.send(new GliderActivatedC2SPayload(true, false));
@@ -69,7 +68,6 @@ public class GliderClientUtil {
         // if the player exists and was previously activating glider but not anymore, send packets to update
         } else if (player != null && ((PlayerEntityDuck) player).gliding$isActivatingGlider()) {
             ticksUsingGlider = 0;
-
             ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(false);
             ((PlayerEntityDuck) player).gliding$setIsGliding(false);
             ClientPlayNetworking.send(new GliderActivatedC2SPayload(false, false));
