@@ -29,8 +29,6 @@ public class GliderClientUtil {
     }
 
     public static boolean isGliding(ClientPlayerEntity player) {
-        Vec3d velocity = player.getVelocity();
-
         if (isActivatingGlider(player) && isUsingGliderMoreThanOneJump() && !player.isOnGround()
                 && !player.isInFluid() && !player.isFallFlying()){
             isGliderOpened = true;
@@ -67,7 +65,7 @@ public class GliderClientUtil {
                 ClientPlayNetworking.send(new GliderActivatedC2SPayload(true, true));
 
             // if the player is activating the glider but not gliding
-            } else if (GliderClientUtil.isUsingGliderMoreThanOneJump(player)) {
+            } else if (GliderClientUtil.isUsingGliderMoreThanOneJump()) {
                 ((PlayerEntityDuck) player).gliding$setIsActivatingGlider(true);
                 ((PlayerEntityDuck) player).gliding$setIsGliding(false);
                 ClientPlayNetworking.send(new GliderActivatedC2SPayload(true, false));
