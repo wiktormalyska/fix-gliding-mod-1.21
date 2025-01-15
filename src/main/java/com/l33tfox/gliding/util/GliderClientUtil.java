@@ -17,8 +17,11 @@ public class GliderClientUtil {
 
     public static int ticksUsingGlider = 0;
 
+    public static boolean isGliderOpened = false;
+
     public static boolean isActivatingGlider(ClientPlayerEntity player) {
-        return GliderUtil.isHoldingGlider(player) && player.input.jumping && !player.getAbilities().flying;
+        Vec3d velocity = player.getVelocity();
+        return GliderUtil.isHoldingGlider(player) && player.input.jumping && !player.getAbilities().flying && (velocity.y <= -0.45 || isGliderOpened);
     }
 
     public static boolean isUsingGliderMoreThanOneJump(ClientPlayerEntity player) {
@@ -28,8 +31,13 @@ public class GliderClientUtil {
     public static boolean isGliding(ClientPlayerEntity player) {
         Vec3d velocity = player.getVelocity();
 
-        return isActivatingGlider(player) && isUsingGliderMoreThanOneJump(player) && !player.isOnGround()
-                && !player.isInFluid() && !player.isFallFlying() && velocity.y < 0;
+        if (isActivatingGlider(player) && isUsingGliderMoreThanOneJump(player) && !player.isOnGround()
+                && !player.isInFluid() && !player.isFallFlying() && velocity.y < 0){
+            isGliderOpened = true;
+            return true;
+        }
+        isGliderOpened = false;
+        return false;
     }
 
     // Called at the end of every tick on the client using a CLIENT_END_TICK event registered in GlidingClient class
