@@ -5,4 +5,4 @@
 
 ## Changed features:
 - ## Fixed bug when gliders can be used underwater or in other fluids (already merged to original mod)
-- ## Added limit of minimal fall distance to activate glider to 2 blocks
+- ## Added limit of minimal fall distance to activate glider (2 blocks)
