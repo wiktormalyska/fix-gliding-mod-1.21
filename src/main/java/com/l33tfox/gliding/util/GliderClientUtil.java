@@ -21,18 +21,18 @@ public class GliderClientUtil {
 
     public static boolean isActivatingGlider(ClientPlayerEntity player) {
         Vec3d velocity = player.getVelocity();
-        return GliderUtil.isHoldingGlider(player) && player.input.jumping && !player.getAbilities().flying && (velocity.y <= -0.45 || isGliderOpened);
+        return GliderUtil.isHoldingGlider(player) && player.input.jumping && !player.getAbilities().flying && (velocity.y <= -0.45 || isGliderOpened) && !player.isSwimming() && !player.isInFluid();
     }
 
-    public static boolean isUsingGliderMoreThanOneJump(ClientPlayerEntity player) {
+    public static boolean isUsingGliderMoreThanOneJump() {
         return ticksUsingGlider > 4;
     }
 
     public static boolean isGliding(ClientPlayerEntity player) {
         Vec3d velocity = player.getVelocity();
 
-        if (isActivatingGlider(player) && isUsingGliderMoreThanOneJump(player) && !player.isOnGround()
-                && !player.isInFluid() && !player.isFallFlying() && velocity.y < 0){
+        if (isActivatingGlider(player) && isUsingGliderMoreThanOneJump() && !player.isOnGround()
+                && !player.isInFluid() && !player.isFallFlying()){
             isGliderOpened = true;
             return true;
         }
